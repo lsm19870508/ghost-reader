@@ -1,0 +1,44 @@
+<idea-plugin>
+    <id>cn.local.ghostreader</id>
+    <name>Ghost Reader</name>
+    <vendor>Local Tools</vendor>
+    <description><![CDATA[
+        <p>Read local TXT novels as configurable virtual comment lines in the editor without modifying source files.</p>
+        <p>在 PyCharm 编辑器中以可配置行数的虚拟注释阅读本地 TXT，不修改源文件。</p>
+        <p>支持可配置分页、章节切换、一键隐藏、跟随光标、中文字体回退、跳过空白行及按书籍保存阅读进度。完全本地运行。</p>
+    ]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable parentId="tools" instance="cn.local.ghostreader.ReaderConfigurable"
+                                 id="cn.local.ghostreader.settings" displayName="小说隐形阅读器 / Ghost Reader"/>
+        <postStartupActivity implementation="cn.local.ghostreader.ReaderStartup"/>
+        <notificationGroup id="GhostReader" displayType="BALLOON" isLogByDefault="true"/>
+        <editorActionHandler action="EditorNextWord" implementationClass="cn.local.ghostreader.ReaderNextWordHandler" order="last"/>
+        <editorActionHandler action="EditorPreviousWord" implementationClass="cn.local.ghostreader.ReaderPreviousWordHandler" order="last"/>
+        <editorActionHandler action="EditorNextWordWithSelection" implementationClass="cn.local.ghostreader.ReaderNextWordSelectionHandler" order="last"/>
+        <editorActionHandler action="EditorPreviousWordWithSelection" implementationClass="cn.local.ghostreader.ReaderPreviousWordSelectionHandler" order="last"/>
+    </extensions>
+    <actions>
+        <group id="GhostReader.Menu" text="小说隐形阅读器 / Ghost Reader" popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="GhostReader.Configure" class="cn.local.ghostreader.ConfigureReaderAction" text="配置小说路径与显示位置…">
+            </action>
+            <separator/>
+            <action id="GhostReader.NextPage" class="cn.local.ghostreader.NextPageAction" text="下一页">
+            </action>
+            <action id="GhostReader.PreviousPage" class="cn.local.ghostreader.PreviousPageAction" text="上一页">
+            </action>
+            <action id="GhostReader.NextChapter" class="cn.local.ghostreader.NextChapterAction" text="下一章">
+            </action>
+            <action id="GhostReader.PreviousChapter" class="cn.local.ghostreader.PreviousChapterAction" text="上一章开头">
+            </action>
+            <action id="GhostReader.Toggle" class="cn.local.ghostreader.ToggleReaderAction" text="隐藏 / 显示小说">
+            </action>
+            <action id="GhostReader.AnchorHere" class="cn.local.ghostreader.AnchorHereAction" text="跟随当前光标行显示">
+            </action>
+            <separator/>
+            <action id="GhostReader.Reload" class="cn.local.ghostreader.ReloadBookAction" text="重新读取 TXT"/>
+            <action id="GhostReader.Restart" class="cn.local.ghostreader.RestartBookAction" text="从头阅读当前小说"/>
+        </group>
+    </actions>
+</idea-plugin>
